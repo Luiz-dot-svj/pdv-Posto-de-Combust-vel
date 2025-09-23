@@ -2,10 +2,13 @@ package com.br.pdvpostodecombustivel.domain.entity;
 
 
 
+
 public class Acesso {
 
     private String usuario;
     private String senha;
+
+
 
     //construtor
     public Acesso(String usuario, String senha){

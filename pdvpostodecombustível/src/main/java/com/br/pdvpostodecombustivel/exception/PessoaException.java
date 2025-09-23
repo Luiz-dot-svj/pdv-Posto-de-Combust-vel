@@ -1,3 +1,4 @@
+
 package com.br.pdvpostodecombustivel.exception;
 
 public class PessoaException extends RuntimeException {
