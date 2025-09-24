@@ -1,3 +1,4 @@
+
 -- Criação da tabela pessoas
 CREATE TABLE IF NOT EXISTS pessoas (
                                        id BIGSERIAL PRIMARY KEY,

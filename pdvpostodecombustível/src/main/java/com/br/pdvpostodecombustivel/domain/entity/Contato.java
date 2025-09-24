@@ -2,7 +2,8 @@ package com.br.pdvpostodecombustivel.domain.entity;
 
 
 
-public class Contato {
+public class
+Contato {
 
     //atributos
     private String telefone;

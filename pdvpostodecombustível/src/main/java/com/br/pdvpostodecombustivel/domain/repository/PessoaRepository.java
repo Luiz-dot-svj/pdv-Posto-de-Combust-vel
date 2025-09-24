@@ -1,7 +1,7 @@
 package com.br.pdvpostodecombustivel.domain.repository;
 
 
-import com.br.pdvpostocombustivel.domain.entity.Pessoa;
+import com.br.pdvpostodecombustivel.domain.entity.Pessoa;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
