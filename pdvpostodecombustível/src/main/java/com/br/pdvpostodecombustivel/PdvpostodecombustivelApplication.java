@@ -24,10 +24,10 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 @Server(url = "http://localhost:8080", description = "Ambiente Local")
         }
 )
-public class PdvpostocombustivelApplication {
+public class PdvpostodecombustivelApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PdvpostocombustivelApplication.class, args);
+        SpringApplication.run(PdvpostodecombustivelApplication.class, args);
 
         // Seu bloco de testes antigos pode ficar comentado aqui se quiser.
         // Como estamos usando Swagger, os testes podem ser feitos pela UI:

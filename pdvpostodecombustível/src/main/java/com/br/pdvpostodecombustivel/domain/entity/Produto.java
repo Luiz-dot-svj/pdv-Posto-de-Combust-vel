@@ -1,12 +1,28 @@
+
 package com.br.pdvpostodecombustivel.domain.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "produto")
 public class Produto {
 
     //atributos
+    @Column(length = 20, nullable = false)
     private String nome;
+
+    @Column(length = 500, nullable = false)
     private String referencia;
+
+    @Column(length = 100, nullable = false)
     private String fornecedor;
+
+    @Column(length = 30, nullable = false)
     private String marca;
+
+    @Column(length = 30, nullable = false)
     private String categoria;
 
     //construtor
