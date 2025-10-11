@@ -1,10 +1,9 @@
-
 package com.br.pdvpostodecombustivel.api.acesso.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-// Para Entrada
 public record AcessoRequest(
-        String usuario,
-        String senha
-)
-{ }
+        @NotBlank @Size(max = 30) String usuario,
+        @NotBlank @Size(max = 15) String senha
+) {}

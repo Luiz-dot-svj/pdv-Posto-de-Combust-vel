@@ -1,16 +1,12 @@
-
 package com.br.pdvpostodecombustivel.api.custo.dto;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDate;
+import jakarta.validation.constraints.NotNull;
+import java.util.Date;
 
 public record CustoRequest(
-        Double imposto,
-        Double custoVariavel,
-        Double custoFixo,
-        Double margemLucro,
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-        LocalDate dataProcessamento
-) {
-}
+        @NotNull Double imposto,
+        @NotNull Double custoVariavel,
+        @NotNull Double custoFixo,
+        @NotNull Double margemLucro,
+        @NotNull Date dataProcessamento
+) {}

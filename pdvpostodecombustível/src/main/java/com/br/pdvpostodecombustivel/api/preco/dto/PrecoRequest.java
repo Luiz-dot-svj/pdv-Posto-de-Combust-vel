@@ -1,17 +1,12 @@
-
 package com.br.pdvpostodecombustivel.api.preco.dto;
 
-import org.springframework.cglib.core.Local;
-import org.springframework.format.annotation.DateTimeFormat;
-
+import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public record PrecoRequest(
-        BigDecimal valor,
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-        LocalDate dataAlteracao,
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-        LocalDate horaAlteracao
-) {
-}
+        @NotNull BigDecimal valor,
+        @NotNull LocalDate dataAlteracao,
+        @NotNull LocalTime horaAlteracao
+) {}

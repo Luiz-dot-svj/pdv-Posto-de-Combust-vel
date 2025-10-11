@@ -1,15 +1,15 @@
 
 package com.br.pdvpostodecombustivel.domain.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "contato")
 public class Contato {
 
-    //atributos
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(length = 14, nullable = false)
     private String telefone;
@@ -20,6 +20,8 @@ public class Contato {
     @Column (length = 100, nullable = false)
     private String endereco;
 
+    /** Construtor JPA */
+    protected Contato() {}
 
     //construtor
     public Contato(String telefone, String email, String endereco) {
@@ -29,6 +31,10 @@ public class Contato {
     }
 
     //getters
+    public Long getId() {
+        return id;
+    }
+
     public String getTelefone() {
         return telefone;
     }
@@ -40,6 +46,10 @@ public class Contato {
     }
 
     //setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
@@ -49,6 +59,4 @@ public class Contato {
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
-
-
 }
