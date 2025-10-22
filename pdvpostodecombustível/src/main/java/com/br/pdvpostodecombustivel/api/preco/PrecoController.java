@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/precos")
+@RequestMapping("/api/preco-controller")
 @Tag(name = "Preços", description = "Operações relacionadas a preços")
 public class PrecoController {
 

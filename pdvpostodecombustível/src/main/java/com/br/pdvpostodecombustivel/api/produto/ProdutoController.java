@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/produtos")
+@RequestMapping("/api/produto-controller")
 @Tag(name = "Produtos", description = "Operações relacionadas a produtos")
 public class ProdutoController {
 

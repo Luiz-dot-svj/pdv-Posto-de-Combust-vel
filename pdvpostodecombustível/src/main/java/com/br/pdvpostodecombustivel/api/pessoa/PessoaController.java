@@ -1,16 +1,24 @@
 
 package com.br.pdvpostodecombustivel.api.pessoa;
 
-
 import com.br.pdvpostodecombustivel.api.pessoa.dto.PessoaRequest;
 import com.br.pdvpostodecombustivel.api.pessoa.dto.PessoaResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
-@RequestMapping("/api/v1/pessoas")
+@RequestMapping("/api/pessoas")
+@Tag(name = "Pessoas", description = "Operações relacionadas a pessoas")
 public class PessoaController {
 
     private final PessoaService service;
@@ -20,42 +28,52 @@ public class PessoaController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public PessoaResponse create(@RequestBody PessoaRequest req) {
-        return service.create(req);
-    }
-
-    @GetMapping("/{id}")
-    public PessoaResponse get(@PathVariable Long id) {
-        return service.getById(id);
-    }
-
-    @GetMapping(params = "cpfCnpj")
-    public PessoaResponse getByCpf(@RequestParam String cpfCnpj) {
-        return service.getByCpfCnpj(cpfCnpj);
+    @Operation(summary = "Cria uma nova pessoa")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Pessoa criada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos")
+    })
+    public ResponseEntity<PessoaResponse> create(@Valid @RequestBody PessoaRequest request) {
+        PessoaResponse response = service.create(request);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(response.id()).toUri();
+        return ResponseEntity.created(location).body(response);
     }
 
     @GetMapping
-    public Page<PessoaResponse> list(@RequestParam(defaultValue = "0") int page,
-                                     @RequestParam(defaultValue = "10") int size,
-                                     @RequestParam(defaultValue = "id") String sortBy,
-                                     @RequestParam(defaultValue = "ASC") Sort.Direction dir) {
-        return service.list(page, size, sortBy, dir);
+    @Operation(summary = "Lista todas as pessoas de forma paginada")
+    public ResponseEntity<Page<PessoaResponse>> findAll(Pageable pageable) {
+        return ResponseEntity.ok(service.findAll(pageable));
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Busca uma pessoa pelo ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Pessoa encontrada"),
+            @ApiResponse(responseCode = "404", description = "Pessoa não encontrada")
+    })
+    public ResponseEntity<PessoaResponse> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getById(id));
     }
 
     @PutMapping("/{id}")
-    public PessoaResponse update(@PathVariable Long id, @RequestBody PessoaRequest req) {
-        return service.update(id, req);
-    }
-
-    @PatchMapping("/{id}")
-    public PessoaResponse patch(@PathVariable Long id, @RequestBody PessoaRequest req) {
-        return service.patch(id, req);
+    @Operation(summary = "Atualiza uma pessoa existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Pessoa atualizada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Pessoa não encontrada")
+    })
+    public ResponseEntity<PessoaResponse> update(@PathVariable Long id, @Valid @RequestBody PessoaRequest request) {
+        return ResponseEntity.ok(service.update(id, request));
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
+    @Operation(summary = "Deleta uma pessoa pelo ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Pessoa deletada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Pessoa não encontrada")
+    })
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

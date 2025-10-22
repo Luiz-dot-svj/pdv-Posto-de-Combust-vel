@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/acessos")
+@RequestMapping("/api/acesso-controller")
 @Tag(name = "Acessos", description = "Operações relacionadas aos dados de acesso")
 public class AcessoController {
 
