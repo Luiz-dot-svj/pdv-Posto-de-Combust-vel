@@ -57,13 +57,23 @@ public class PessoaController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualiza uma pessoa existente")
+    @Operation(summary = "Atualiza todos os campos de uma pessoa existente")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Pessoa atualizada com sucesso"),
             @ApiResponse(responseCode = "404", description = "Pessoa não encontrada")
     })
     public ResponseEntity<PessoaResponse> update(@PathVariable Long id, @Valid @RequestBody PessoaRequest request) {
         return ResponseEntity.ok(service.update(id, request));
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "Atualiza parcialmente uma pessoa existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Pessoa atualizada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Pessoa não encontrada")
+    })
+    public ResponseEntity<PessoaResponse> patch(@PathVariable Long id, @RequestBody PessoaRequest request) {
+        return ResponseEntity.ok(service.patch(id, request));
     }
 
     @DeleteMapping("/{id}")

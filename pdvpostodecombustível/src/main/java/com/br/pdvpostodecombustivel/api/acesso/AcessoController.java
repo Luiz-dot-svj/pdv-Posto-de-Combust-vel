@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/acesso-controller")
+@RequestMapping("/api/acessos")
 @Tag(name = "Acessos", description = "Operações relacionadas aos dados de acesso")
 public class AcessoController {
 
@@ -56,13 +56,23 @@ public class AcessoController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualiza um acesso existente")
+    @Operation(summary = "Atualiza todos os campos de um acesso existente")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Acesso atualizado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Acesso não encontrado")
     })
     public ResponseEntity<AcessoResponse> update(@PathVariable Long id, @Valid @RequestBody AcessoRequest request) {
         return ResponseEntity.ok(service.update(id, request));
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "Atualiza parcialmente um acesso existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Acesso atualizado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Acesso não encontrado")
+    })
+    public ResponseEntity<AcessoResponse> patch(@PathVariable Long id, @RequestBody AcessoRequest request) {
+        return ResponseEntity.ok(service.patch(id, request));
     }
 
     @DeleteMapping("/{id}")

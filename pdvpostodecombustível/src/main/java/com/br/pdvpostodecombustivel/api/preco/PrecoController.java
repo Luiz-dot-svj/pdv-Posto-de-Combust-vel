@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/preco-controller")
+@RequestMapping("/api/precos")
 @Tag(name = "Preços", description = "Operações relacionadas a preços")
 public class PrecoController {
 
@@ -56,13 +56,23 @@ public class PrecoController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualiza um preço existente")
+    @Operation(summary = "Atualiza todos os campos de um preço existente")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Preço atualizado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Preço não encontrado")
     })
     public ResponseEntity<PrecoResponse> update(@PathVariable Long id, @Valid @RequestBody PrecoRequest request) {
         return ResponseEntity.ok(service.update(id, request));
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "Atualiza parcialmente um preço existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Preço atualizado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Preço não encontrado")
+    })
+    public ResponseEntity<PrecoResponse> patch(@PathVariable Long id, @RequestBody PrecoRequest request) {
+        return ResponseEntity.ok(service.patch(id, request));
     }
 
     @DeleteMapping("/{id}")

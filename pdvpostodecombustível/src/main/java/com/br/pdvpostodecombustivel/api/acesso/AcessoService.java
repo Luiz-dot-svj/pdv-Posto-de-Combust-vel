@@ -46,6 +46,16 @@ public class AcessoService {
         return toResponse(repository.save(acesso));
     }
 
+    public AcessoResponse patch(Long id, AcessoRequest req) {
+        Acesso acesso = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Acesso não encontrado. id=" + id));
+
+        if (req.usuario() != null) acesso.setUsuario(req.usuario());
+        if (req.senha() != null) acesso.setSenha(req.senha());
+
+        return toResponse(repository.save(acesso));
+    }
+
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new IllegalArgumentException("Acesso não encontrado. id=" + id);

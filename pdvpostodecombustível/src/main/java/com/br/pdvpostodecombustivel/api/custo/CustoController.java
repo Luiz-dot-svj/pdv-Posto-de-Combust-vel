@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/custo-controller")
+@RequestMapping("/api/custos")
 @Tag(name = "Custos", description = "Operações relacionadas a custos")
 public class CustoController {
 
@@ -56,13 +56,23 @@ public class CustoController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualiza um custo existente")
+    @Operation(summary = "Atualiza todos os campos de um custo existente")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Custo atualizado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Custo não encontrado")
     })
     public ResponseEntity<CustoResponse> update(@PathVariable Long id, @Valid @RequestBody CustoRequest request) {
         return ResponseEntity.ok(service.update(id, request));
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "Atualiza parcialmente um custo existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Custo atualizado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Custo não encontrado")
+    })
+    public ResponseEntity<CustoResponse> patch(@PathVariable Long id, @RequestBody CustoRequest request) {
+        return ResponseEntity.ok(service.patch(id, request));
     }
 
     @DeleteMapping("/{id}")

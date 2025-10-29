@@ -47,6 +47,17 @@ public class PrecoService {
         return toResponse(repository.save(preco));
     }
 
+    public PrecoResponse patch(Long id, PrecoRequest req) {
+        Preco preco = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Preço não encontrado. id=" + id));
+
+        if (req.valor() != null) preco.setValor(req.valor());
+        if (req.dataAlteracao() != null) preco.setDataAlteracao(req.dataAlteracao());
+        if (req.horaAlteracao() != null) preco.setHoraAlteracao(req.horaAlteracao());
+
+        return toResponse(repository.save(preco));
+    }
+
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new IllegalArgumentException("Preço não encontrado. id=" + id);

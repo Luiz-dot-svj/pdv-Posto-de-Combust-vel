@@ -8,9 +8,7 @@ import com.br.pdvpostodecombustivel.domain.entity.Pessoa;
 import com.br.pdvpostodecombustivel.domain.repository.PessoaRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,13 +35,6 @@ public class PessoaService {
     }
 
     @Transactional(readOnly = true)
-    public PessoaResponse getByCpfCnpj(String cpfCnpj) {
-        Pessoa p = repository.findByCpfCnpj(cpfCnpj)
-                .orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrada. cpfCnpj=" + cpfCnpj));
-        return toResponse(p);
-    }
-
-    @Transactional(readOnly = true)
     public Page<PessoaResponse> findAll(Pageable pageable) {
         return repository.findAll(pageable).map(this::toResponse);
     }
@@ -60,6 +51,23 @@ public class PessoaService {
         p.setCpfCnpj(req.cpfCnpj());
         p.setNumeroCtps(req.numeroCtps());
         p.setDataNascimento(req.dataNascimento());
+
+        return toResponse(repository.save(p));
+    }
+
+    public PessoaResponse patch(Long id, PessoaRequest req) {
+        Pessoa p = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrada. id=" + id));
+
+        if (req.nomeCompleto() != null)  p.setNomeCompleto(req.nomeCompleto());
+        if (req.cpfCnpj() != null) {
+            if (!req.cpfCnpj().equals(p.getCpfCnpj())) {
+                validarUnicidadeCpfCnpj(req.cpfCnpj(), id);
+            }
+            p.setCpfCnpj(req.cpfCnpj());
+        }
+        if (req.numeroCtps() != null)    p.setNumeroCtps(req.numeroCtps());
+        if (req.dataNascimento() != null) p.setDataNascimento(req.dataNascimento());
 
         return toResponse(repository.save(p));
     }
@@ -91,7 +99,7 @@ public class PessoaService {
 
     private PessoaResponse toResponse(Pessoa p) {
         return new PessoaResponse(
-                p.getId(), // ID adicionado aqui
+                p.getId(),
                 p.getNomeCompleto(),
                 p.getCpfCnpj(),
                 p.getNumeroCtps(),

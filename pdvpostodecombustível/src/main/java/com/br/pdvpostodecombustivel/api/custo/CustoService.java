@@ -49,6 +49,19 @@ public class CustoService {
         return toResponse(repository.save(custo));
     }
 
+    public CustoResponse patch(Long id, CustoRequest req) {
+        Custo custo = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Custo não encontrado. id=" + id));
+
+        if (req.imposto() != null) custo.setImposto(req.imposto());
+        if (req.custoVariavel() != null) custo.setCustoVariavel(req.custoVariavel());
+        if (req.custoFixo() != null) custo.setCustoFixo(req.custoFixo());
+        if (req.margemLucro() != null) custo.setMargemLucro(req.margemLucro());
+        if (req.dataProcessamento() != null) custo.setDataProcessamento(req.dataProcessamento());
+
+        return toResponse(repository.save(custo));
+    }
+
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new IllegalArgumentException("Custo não encontrado. id=" + id);

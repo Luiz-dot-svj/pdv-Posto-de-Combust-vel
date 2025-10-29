@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/contato-controller")
+@RequestMapping("/api/contatos")
 @Tag(name = "Contatos", description = "Operações relacionadas a contatos")
 public class ContatoController {
 
@@ -56,13 +56,23 @@ public class ContatoController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualiza um contato existente")
+    @Operation(summary = "Atualiza todos os campos de um contato existente")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Contato atualizado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Contato não encontrado")
     })
     public ResponseEntity<ContatoResponse> update(@PathVariable Long id, @Valid @RequestBody ContatoRequest request) {
         return ResponseEntity.ok(service.update(id, request));
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "Atualiza parcialmente um contato existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Contato atualizado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Contato não encontrado")
+    })
+    public ResponseEntity<ContatoResponse> patch(@PathVariable Long id, @RequestBody ContatoRequest request) {
+        return ResponseEntity.ok(service.patch(id, request));
     }
 
     @DeleteMapping("/{id}")

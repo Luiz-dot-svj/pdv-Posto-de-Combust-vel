@@ -49,6 +49,19 @@ public class EstoqueService {
         return toResponse(repository.save(estoque));
     }
 
+    public EstoqueResponse patch(Long id, EstoqueRequest req) {
+        Estoque estoque = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Estoque não encontrado. id=" + id));
+
+        if (req.quantidade() != null) estoque.setQuantidade(req.quantidade());
+        if (req.localTanque() != null) estoque.setLocalTanque(req.localTanque());
+        if (req.localEndereco() != null) estoque.setLocalEndereco(req.localEndereco());
+        if (req.loteFabricacao() != null) estoque.setLoteFabricacao(req.loteFabricacao());
+        if (req.dataValidade() != null) estoque.setDataValidade(req.dataValidade());
+
+        return toResponse(repository.save(estoque));
+    }
+
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new IllegalArgumentException("Estoque não encontrado. id=" + id);

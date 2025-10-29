@@ -47,6 +47,17 @@ public class ContatoService {
         return toResponse(repository.save(contato));
     }
 
+    public ContatoResponse patch(Long id, ContatoRequest req) {
+        Contato contato = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Contato não encontrado. id=" + id));
+
+        if (req.telefone() != null) contato.setTelefone(req.telefone());
+        if (req.email() != null) contato.setEmail(req.email());
+        if (req.endereco() != null) contato.setEndereco(req.endereco());
+
+        return toResponse(repository.save(contato));
+    }
+
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new IllegalArgumentException("Contato não encontrado. id=" + id);

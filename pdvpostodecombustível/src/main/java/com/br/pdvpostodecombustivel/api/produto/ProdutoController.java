@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/produto-controller")
+@RequestMapping("/api/produtos")
 @Tag(name = "Produtos", description = "Operações relacionadas a produtos")
 public class ProdutoController {
 
@@ -56,13 +56,23 @@ public class ProdutoController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualiza um produto existente")
+    @Operation(summary = "Atualiza todos os campos de um produto existente")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Produto atualizado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Produto não encontrado")
     })
     public ResponseEntity<ProdutoResponse> update(@PathVariable Long id, @Valid @RequestBody ProdutoRequest request) {
         return ResponseEntity.ok(service.update(id, request));
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "Atualiza parcialmente um produto existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produto atualizado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado")
+    })
+    public ResponseEntity<ProdutoResponse> patch(@PathVariable Long id, @RequestBody ProdutoRequest request) {
+        return ResponseEntity.ok(service.patch(id, request));
     }
 
     @DeleteMapping("/{id}")

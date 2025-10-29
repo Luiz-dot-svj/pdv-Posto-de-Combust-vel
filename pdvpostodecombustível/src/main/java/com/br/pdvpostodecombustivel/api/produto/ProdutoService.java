@@ -49,6 +49,19 @@ public class ProdutoService {
         return toResponse(repository.save(produto));
     }
 
+    public ProdutoResponse patch(Long id, ProdutoRequest req) {
+        Produto produto = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado. id=" + id));
+
+        if (req.nome() != null) produto.setNome(req.nome());
+        if (req.referencia() != null) produto.setReferencia(req.referencia());
+        if (req.fornecedor() != null) produto.setFornecedor(req.fornecedor());
+        if (req.marca() != null) produto.setMarca(req.marca());
+        if (req.categoria() != null) produto.setCategoria(req.categoria());
+
+        return toResponse(repository.save(produto));
+    }
+
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new IllegalArgumentException("Produto não encontrado. id=" + id);

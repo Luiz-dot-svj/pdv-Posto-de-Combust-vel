@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/estoque-controller")
+@RequestMapping("/api/estoques")
 @Tag(name = "Estoques", description = "Operações relacionadas a estoques")
 public class EstoqueController {
 
@@ -56,13 +56,23 @@ public class EstoqueController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualiza um estoque existente")
+    @Operation(summary = "Atualiza todos os campos de um estoque existente")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Estoque atualizado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Estoque não encontrado")
     })
     public ResponseEntity<EstoqueResponse> update(@PathVariable Long id, @Valid @RequestBody EstoqueRequest request) {
         return ResponseEntity.ok(service.update(id, request));
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "Atualiza parcialmente um estoque existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Estoque atualizado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Estoque não encontrado")
+    })
+    public ResponseEntity<EstoqueResponse> patch(@PathVariable Long id, @RequestBody EstoqueRequest request) {
+        return ResponseEntity.ok(service.patch(id, request));
     }
 
     @DeleteMapping("/{id}")
