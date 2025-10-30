@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,7 @@ public class PrecoController {
 
     @GetMapping
     @Operation(summary = "Lista todos os preços de forma paginada")
-    public ResponseEntity<Page<PrecoResponse>> findAll(Pageable pageable) {
+    public ResponseEntity<Page<PrecoResponse>> findAll(@ParameterObject Pageable pageable) {
         return ResponseEntity.ok(service.findAll(pageable));
     }
 
